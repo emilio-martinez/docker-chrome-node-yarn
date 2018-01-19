@@ -1,0 +1,26 @@
+{
+  "name": "docker-chrome-node",
+  "version": "1.0.0",
+  "description": "Docker Image with Chrome, Node, and Yarn",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emilio-martinez/docker-chrome-node.git"
+  },
+  "keywords": [
+    "docker",
+    "docker-image",
+    "node",
+    "yarn",
+    "google-chrome-stable"
+  ],
+  "author": "Emilio Martinez <e.marticor@gmail.com>",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/emilio-martinez/docker-chrome-node/issues"
+  },
+  "homepage": "https://github.com/emilio-martinez/docker-chrome-node#readme"
+}
