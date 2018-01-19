@@ -36,4 +36,7 @@ RUN node --version
 RUN npm --version
 RUN yarn --version
 
+# Run user as non privileged.
+USER node
+
 CMD ["bash"]
