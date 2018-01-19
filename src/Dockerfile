@@ -31,6 +31,7 @@ RUN chmod +x /usr/local/bin/dumb-init
 ENTRYPOINT ["dumb-init", "--"]
 
 # Confirm installation
+RUN $CHROME_BIN --version
 RUN node --version
 RUN npm --version
 RUN yarn --version
