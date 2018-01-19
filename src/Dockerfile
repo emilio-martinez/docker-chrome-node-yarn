@@ -1,4 +1,4 @@
-FROM node:8
+FROM selenium/standalone-chrome
 
 USER root
 
@@ -14,14 +14,6 @@ RUN apt-get update \
 # See https://crbug.com/795759
 RUN apt-get update && apt-get install -yq libgconf-2-4
 
-# Install Google Chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /src/*.deb
-
 # Point contant to Chrome instance
 ENV CHROME_BIN /usr/bin/google-chrome
 
@@ -30,13 +22,39 @@ ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_a
 RUN chmod +x /usr/local/bin/dumb-init
 ENTRYPOINT ["dumb-init", "--"]
 
+# Replace shell with bash so we can source files
+RUN sudo rm /bin/sh && sudo ln -s /bin/bash /bin/sh
+
+# node and yarn environment variables
+ENV HOME ~
+ENV NVM_DIR $HOME/nvm
+ENV NODE_VERSION 8.9.4
+ENV YARN_VERSION 1.3.2
+
+# Set home permissions for seluser
+RUN mkdir -p $HOME && chown -R seluser:seluser $HOME
+
+# Run user as non privileged.
+USER seluser
+
+# Install nvm (https://github.com/creationix/nvm#install-script)
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+RUN source $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
+# Add node and npm to PATH
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+# Install yarn (https://yarnpkg.com/en/docs/install#alternatives-tab)
+RUN curl --silent -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+ENV PATH ~/.yarn/bin:~/.config/yarn/global/node_modules/.bin:$PATH
+
 # Confirm installation
 RUN $CHROME_BIN --version
 RUN node --version
 RUN npm --version
 RUN yarn --version
-
-# Run user as non privileged.
-USER node
 
 CMD ["bash"]
