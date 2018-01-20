@@ -26,7 +26,7 @@ ENTRYPOINT ["dumb-init", "--"]
 RUN sudo rm /bin/sh && sudo ln -s /bin/bash /bin/sh
 
 # node and yarn environment variables
-ENV HOME ~
+ENV HOME /home/seluser
 ENV NVM_DIR $HOME/nvm
 ENV NODE_VERSION 8.9.4
 ENV YARN_VERSION 1.3.2
