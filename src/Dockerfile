@@ -57,4 +57,7 @@ RUN node --version
 RUN npm --version
 RUN yarn --version
 
+# Set working directory to home
+WORKDIR $HOME
+
 CMD ["bash"]
