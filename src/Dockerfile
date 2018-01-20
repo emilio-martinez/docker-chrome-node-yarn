@@ -2,7 +2,7 @@ FROM selenium/standalone-chrome
 
 USER root
 
-# # Manually install missing shared libs for Chromium.
+# Manually install missing shared libs for Chromium.
 RUN apt-get update \
     && apt-get install git xvfb curl -y \
     && apt-get install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
@@ -14,7 +14,7 @@ RUN apt-get update \
 # See https://crbug.com/795759
 RUN apt-get update && apt-get install -yq libgconf-2-4
 
-# Point contant to Chrome instance
+# Set Chrome binary location to env variable
 ENV CHROME_BIN /usr/bin/google-chrome
 
 # `dumb-init` helps prevent zombie chrome processes.
@@ -34,7 +34,7 @@ ENV YARN_VERSION 1.3.2
 # Set home permissions for seluser
 RUN mkdir -p $HOME && chown -R seluser:seluser $HOME
 
-# Run user as non privileged.
+# Switch user to non-privileged.
 USER seluser
 
 # Install nvm (https://github.com/creationix/nvm#install-script)
