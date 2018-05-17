@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -yq libgconf-2-4
 ENV CHROME_BIN /usr/bin/google-chrome
 
 # `dumb-init` helps prevent zombie chrome processes.
-ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init
 ENTRYPOINT ["dumb-init", "--"]
 
@@ -27,9 +27,9 @@ RUN sudo rm /bin/sh && sudo ln -s /bin/bash /bin/sh
 
 # node and yarn environment variables
 ENV HOME /home/seluser
-ENV NVM_DIR $HOME/nvm
-ENV NODE_VERSION 8.9.4
-ENV YARN_VERSION 1.3.2
+ENV NVM_DIR $HOME/.nvm
+ENV NODE_VERSION 8.11.2
+ENV YARN_VERSION 1.6.0
 
 # Set home permissions for seluser
 RUN mkdir -p $HOME && chown -R seluser:seluser $HOME
@@ -38,7 +38,8 @@ RUN mkdir -p $HOME && chown -R seluser:seluser $HOME
 USER seluser
 
 # Install nvm (https://github.com/creationix/nvm#install-script)
-RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+RUN mkdir -p $NVM_DIR \
+    && curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 RUN source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
@@ -56,6 +57,7 @@ RUN $CHROME_BIN --version
 RUN node --version
 RUN npm --version
 RUN yarn --version
+RUN aws --version
 
 # Set working directory to home
 WORKDIR $HOME
