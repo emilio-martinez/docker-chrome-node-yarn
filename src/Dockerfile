@@ -57,8 +57,7 @@ RUN $CHROME_BIN --version
 RUN node --version
 RUN npm --version
 RUN yarn --version
-RUN python3 --version
-RUN awscli --version
+RUN aws --version
 
 # Set working directory to home
 WORKDIR $HOME

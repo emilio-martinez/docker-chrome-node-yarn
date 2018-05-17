@@ -6,7 +6,6 @@ This image builds on top of the [`selenium/standalone-chrome`](https://hub.docke
 * [`npm`](https://www.npmjs.com/)
 * [`yarn`](https://yarnpkg.com)
 * [`awscli`](https://aws.amazon.com/cli/)
-* [`python3`](https://www.python.org/) (needed for AWS CLI)
 * And an additional set of Chromium dependencies
 
 The exact binary versions provided with each release are available in their corresponding release notes.
