@@ -28,8 +28,8 @@ RUN sudo rm /bin/sh && sudo ln -s /bin/bash /bin/sh
 # node and yarn environment variables
 ENV HOME /home/seluser
 ENV NVM_DIR $HOME/.nvm
-ENV NODE_VERSION 8.11.2
-ENV YARN_VERSION 1.6.0
+ENV NODE_VERSION 8.12.0
+ENV YARN_VERSION 1.10.1
 
 # Set home permissions for seluser
 RUN mkdir -p $HOME && chown -R seluser:seluser $HOME
