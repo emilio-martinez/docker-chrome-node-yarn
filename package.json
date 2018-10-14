@@ -4,7 +4,16 @@
   "description": "Docker Image with Chrome, Node, and Yarn",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run :build && npm run :run",
+    "clear": "npm run :stop && npm run :rm && npm run :rmi",
+    ":build": "docker build src --tag 'docker-chrome-node-test'",
+    ":run": "docker run -it docker-chrome-node-test",
+    ":ps": "docker ps -a --filter 'ancestor=docker-chrome-node-test'",
+    ":images": "docker images --filter 'reference=docker-chrome-node-test'",
+    ":stop": "docker stop $(docker ps -aq --filter 'ancestor=docker-chrome-node-test')",
+    ":rm": "docker rm -v $(docker ps -aq --filter 'ancestor=docker-chrome-node-test')",
+    ":rmi": "docker rmi $(docker images -q --filter 'reference=docker-chrome-node-test')"
   },
   "repository": {
     "type": "git",
